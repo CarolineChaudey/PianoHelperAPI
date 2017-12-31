@@ -32,7 +32,9 @@ def format_pattern(pattern):
         desc_track = []
         for event in track:
             event_type = event.__class__.__name__
-            if event_type == "NoteOffEvent" or event_type == "NoteOnEvent":
-                desc_track.append([event.tick, event.data[0]])
+            if event_type == "NoteOffEvent":
+                desc_track.append(['off', event.tick, event.data[0]])
+            elif event_type == "NoteOnEvent":
+                desc_track.append(['on', event.tick, event.data[0]])
         result.append(desc_track)
     return result

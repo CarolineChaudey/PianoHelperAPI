@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-import midi
+import midi, json
 
 
 patterns = ['keyboard_cat.mid', 'GameofThrones.mid', 'rfd.mid', 'ThemeA.mid'];
@@ -15,7 +15,8 @@ def get(request, music_id) :
         pattern = get_midi_pattern(patterns[int(music_id)])
     except IndexError:
         return HttpResponse("No such song")
-    result = format_pattern(pattern)
+    formatted = format_pattern(pattern)
+    result = json.dumps(formatted)
     return HttpResponse(result)
 
 
@@ -32,6 +33,6 @@ def format_pattern(pattern):
         for event in track:
             event_type = event.__class__.__name__
             if event_type == "NoteOffEvent" or event_type == "NoteOnEvent":
-                desc_track.append(event)
+                desc_track.append([event.tick, event.data[0]])
         result.append(desc_track)
     return result

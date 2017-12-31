@@ -2,34 +2,27 @@ from django.http import HttpResponse
 import midi
 
 
+patterns = ['keyboard_cat.mid', 'GameofThrones.mid', 'rfd.mid', 'ThemeA.mid'];
+pattern_path = 'api/sheets/'
+
+
 def get_all(request) :
-    return HttpResponse("1) Keyboard cat\n2) GOT\n3) Requiem for a Dream\n4) Zelda")
+    return HttpResponse(patterns)
 
 
 def get(request, music_id) :
-    if music_id == "1":
-        pattern = midi.read_midifile("api/sheets/keyboard_cat.mid")
-        result = format_pattern(pattern)
-        return HttpResponse(result)
-    elif music_id == "2":
-        pattern = midi.read_midifile("api/sheets/GameofThrones.mid")
-        result = format_pattern(pattern)
-        return HttpResponse(result)
-    elif music_id == "3":
-        pattern = midi.read_midifile("api/sheets/rfd.mid")
-        result = format_pattern(pattern)
-        return HttpResponse(result)
-    elif music_id == "4":
-        pattern = midi.read_midifile("api/sheets/ThemeA.mid")
-        result = format_pattern(pattern)
-        return HttpResponse(result)
-    else:
+    try:
+        pattern = get_midi_pattern(patterns[int(music_id)])
+    except IndexError:
         return HttpResponse("No such song")
+    result = format_pattern(pattern)
+    return HttpResponse(result)
 
 
-def get_midi_pattern(path):
+def get_midi_pattern(pattern_name):
+    path = pattern_path + pattern_name
     pattern = midi.read_midifile(path)
-    return HttpResponse(pattern)
+    return pattern
 
 
 def format_pattern(pattern):

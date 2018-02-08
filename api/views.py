@@ -2,7 +2,7 @@ from django.http import HttpResponse
 import midi, json
 
 
-patterns = ['keyboard_cat.mid', 'GameofThrones.mid', 'rfd.mid', 'ThemeA.mid']
+patterns = ['auclair.mid', 'keyboard_cat.mid', 'GameofThrones.mid', 'rfd.mid', 'ThemeA.mid']
 pattern_path = 'api/sheets/'
 
 
@@ -34,9 +34,11 @@ def format_pattern(pattern):
             event_type = event.__class__.__name__
             if event_type == "NoteOffEvent":
                 desc_track.append([0, event.tick, convert_note(event.data[0])])
+                #print("off")
             elif event_type == "NoteOnEvent":
                 if event.data[1] == 0:
                     desc_track.append([0, event.tick, convert_note(event.data[0])])
+                    #print("off")
                 else:
                     desc_track.append([1, event.tick, convert_note(event.data[0])])
         result.append(desc_track)

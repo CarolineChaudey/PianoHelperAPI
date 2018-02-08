@@ -2,7 +2,8 @@ from django.http import HttpResponse
 import midi, json
 
 
-patterns = ['auclair.mid', 'keyboard_cat.mid', 'GameofThrones.mid', 'rfd.mid', 'ThemeA.mid']
+patterns = ['alphabet_songvoice.mid', 'frere_jacques.mid', 'auclair.mid',
+    'keyboard_cat.mid', 'GameofThrones.mid', 'rfd.mid', 'ThemeA.mid']
 pattern_path = 'api/sheets/'
 
 
